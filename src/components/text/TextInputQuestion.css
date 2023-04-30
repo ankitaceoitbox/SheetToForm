@@ -1,0 +1,43 @@
+.TextInputQuestion {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+  background-color: #fff;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  padding: 24px;
+  page-break-inside: avoid;
+  word-wrap: break-word;
+}
+.textdiscriptins {
+  font-size: 13px;
+  padding: 4px;
+}
+.TextInputQuestion-question-container {
+  /* display: flex; */
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.TextInputQuestion-image {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.TextInputQuestion-question {
+  font-weight: bold;
+}
+
+.TextInputQuestion-answer {
+  margin-left: 20px;
+}
+
+.TextInputQuestion-answer input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

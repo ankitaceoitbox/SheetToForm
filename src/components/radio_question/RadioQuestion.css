@@ -1,0 +1,42 @@
+.RadioQuestion--no-image {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+  background-color: #fff;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  padding: 24px;
+  page-break-inside: avoid;
+  word-wrap: break-word;
+}
+
+.RadioQuestion-question {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.RadioQuestion-options {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.RadioQuestion-options label {
+  margin-left: 8px;
+}
+
+.RadioQuestion-image {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.RadioQuestion--no-image .RadioQuestion-image {
+  display: none;
+}
+.RadioQuestion-images {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+}
