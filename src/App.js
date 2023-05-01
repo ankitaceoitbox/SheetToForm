@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import RenderQuestion from './components/renderQuestion';
 import Webcam from './common/utils/webcam';
 import Timer from './common/utils/timer';
+import SaveFormData from './services/submitDataToSheet';
 
 function App() {
   const { allMcqDataContextAPI } = ContextData();
@@ -28,8 +29,15 @@ function App() {
 
   useEffect(() => {
     if (testCompleted && formResponse['SnapShotArray']?.length > 0) {
-      console.log(formResponse, 'response');
       // Here api will get called...
+      console.log(formResponse);
+      const responsePromise = SaveFormData(formResponse);
+      responsePromise.then(response => {
+        console.log(response.data);
+      })
+        .catch(error => {
+          console.error(error);
+        });
     }
   }, [testCompleted, formResponse]);
 
