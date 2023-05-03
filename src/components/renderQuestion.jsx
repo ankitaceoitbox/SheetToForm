@@ -1,106 +1,3 @@
-// import React, { useEffect, useState } from 'react'
-// import TextInputQuestion from './text/textquestion';
-// import RadioQuestion from './radio_question/radio_question';
-// import CheckboxQuestion from './checkbox/checkbox';
-// import NumberInputQuestion from './number/numberinput_question';
-// import EmailInputQuestion from './email_question/emailQuestion';
-// import TextareaQuestion from './textarea/textarea_question';
-// import DateInputQuestion from './date/datequestion';
-// import TimeInputQuestion from './time/timequestion';
-// import './renderQuestion.css';
-
-// function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, formSettings, onSubmitData, testCompleted, snapShots }) {
-//     const sections = Object.keys(mcqData);
-//     const [currentSection, setCurrentSection] = useState(0);
-//     const [currentQuestion, setCurrentQuestion] = useState(1);
-//     const [formData, setFormData] = useState({});
-
-//     const handleNext = () => {
-//         if (currentSection < sections.length - 1) {
-//             setCurrentSection(currentSection + 1);
-//         }
-//     }
-
-//     const handlePrev = () => {
-//         if (currentSection > 0) {
-//             setCurrentSection(currentSection - 1);
-//         }
-//     }
-
-//     const handleFormDataChange = (key, value) => {
-//         setFormData({ ...formData, [key]: value });
-//     }
-
-//     /** This will get called when clicked on submit button or when timer is over */
-//     const submitAnswer = () => {
-//         onSubmitData(formData);
-//     }
-
-//     useEffect(() => {
-//         window.scrollTo(0, 0);
-//         sectionDetailsHandle(sectionDetails[`Section${currentSection + 1}`]);
-//     }, [sectionDetails, currentSection]);
-
-//     useEffect(() => {
-//         if (testCompleted && snapShots.length > 0) {
-//             const data = {
-//                 ...formData,
-//                 ['SnapShotArray']: snapShots
-//             }
-//             setFormData({ ...formData, ['SnapShotArray']: snapShots });
-//             onSubmitData(data);
-//         }
-//     }, [testCompleted, snapShots]);
-
-//     if (sections.length === 0) {
-//         return <></>;
-//     }
-
-//     return (
-//         <>
-//             {
-//                 mcqData[sections[currentSection]].map((questions) => {
-//                     const questionNumber = questions['questionNumber'];
-//                     const questionType = questions['questionType'];
-//                     if (questionType == 'Text') {
-//                         return <TextInputQuestion key={questionNumber} question={questions} onFormDataChange={handleFormDataChange} formData={formData} />;
-//                     } else if (questionType == 'Radio') {
-//                         return <RadioQuestion key={questionNumber} question={questions} onFormDataChange={handleFormDataChange} formData={formData} />;
-//                     } else if (questionType == 'Checkbox') {
-//                         return <CheckboxQuestion key={questionNumber} question={questions} onFormDataChange={handleFormDataChange} formData={formData} />;
-//                     } else if (questionType == 'Number') {
-//                         return <NumberInputQuestion key={questionNumber} question={questions} onFormDataChange={handleFormDataChange} formData={formData} />;
-//                     } else if (questionType == 'Email') {
-//                         return <EmailInputQuestion key={questionNumber} question={questions} onFormDataChange={handleFormDataChange} formData={formData} />;
-//                     } else if (questionType == 'TextArea') {
-//                         return <TextareaQuestion key={questionNumber} question={questions} onFormDataChange={handleFormDataChange} formData={formData} />;
-//                     } else if (questionType == 'Date') {
-//                         return <DateInputQuestion key={questionNumber} question={questions} onFormDataChange={handleFormDataChange} formData={formData} />;
-//                     } else if (questionType == 'Time') {
-//                         return <TimeInputQuestion key={questionNumber} question={questions} onFormDataChange={handleFormDataChange} formData={formData} />;
-//                     } else {
-//                         return <div key={questionNumber}></div>;
-//                     }
-//                 })
-//             }
-//             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-//                 {
-//                     currentSection > 0 ?
-//                         <button onClick={handlePrev}>Previous</button> : ''
-//                 }
-//                 {
-//                     currentSection === sections.length - 1 ?
-//                         <button className='submit' onClick={submitAnswer}>Submit</button>
-//                         :
-//                         <button onClick={handleNext} className="show-hide" disabled={currentSection === sections.length - 1}>Next</button>
-//                 }
-//             </div>
-//         </>
-//     )
-// }
-
-// export default RenderQuestion;
-
 import React, { useEffect, useState } from 'react'
 import TextInputQuestion from './text/textquestion';
 import RadioQuestion from './radio_question/radio_question';
@@ -169,6 +66,7 @@ function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, formSet
     const currentQuestionData = currentSectionData[currentQuestion];
     const questionNumber = currentQuestionData['questionNumber'];
     const questionType = currentQuestionData['questionType'];
+    const required = currentQuestionData['required'];
 
     if (sections.length === 0) {
         return <></>;
@@ -204,8 +102,36 @@ function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, formSet
                     currentSection === sections.length - 1 ?
                         <button className='submit' onClick={submitAnswer}>Submit</button>
                         :
-                        <button onClick={handleNext} className="show-hide" disabled={currentSection === sections.length - 1}>Next</button>
+                        <button onClick={handleNext}
+                            className="show-hide"
+                            disabled={
+                                (
+                                    (
+                                        formData[`Question${questionNumber}`] === undefined
+                                        ||
+                                        (
+                                            typeof formData[`Question${questionNumber}`] === 'object'
+                                            &&
+                                            formData[`Question${questionNumber}`].length === 0
+                                        )
+                                        ||
+                                        (
+                                            typeof formData[`Question${questionNumber}`] === 'string'
+                                            &&
+                                            formData[`Question${questionNumber}`].trim() === ''
+                                        )
+                                    )
+                                    &&
+                                    required === true
+                                )
+                                ||
+                                currentSection === sections.length - 1
+                            }>
+                            Next
+                        </button>
                 }
+
+
             </div>
         </>
     )

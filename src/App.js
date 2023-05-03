@@ -28,7 +28,8 @@ function App() {
   }, [allMcqDataContextAPI]);
 
   useEffect(() => {
-    if (testCompleted && formResponse['SnapShotArray']?.length > 0) {
+    // if (testCompleted && formResponse['SnapShotArray']?.length > 0) {
+    if (testCompleted) {
       // Here api will get called...
       console.log(formResponse);
       const responsePromise = SaveFormData(formResponse);
