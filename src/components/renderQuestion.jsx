@@ -9,13 +9,19 @@ import DateInputQuestion from './date/datequestion';
 import TimeInputQuestion from './time/timequestion';
 import './renderQuestion.css';
 
-function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, formSettings, onSubmitData, testCompleted, snapShots }) {
+function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, onSubmitData, testCompleted }) {
+    console.log(mcqData, 'mcq')
     const sections = Object.keys(mcqData);
     const [currentSection, setCurrentSection] = useState(0);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [formData, setFormData] = useState({});
 
     const handleNext = () => {
+        if (currentSection === 0) {
+            setCurrentSection(1);
+            setCurrentQuestion(0);
+            return;
+        }
         if (currentQuestion < mcqData[sections[currentSection]].length - 1) {
             setCurrentQuestion(currentQuestion + 1);
         } else if (currentSection < sections.length - 1) {
@@ -25,6 +31,11 @@ function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, formSet
     };
 
     const handlePrev = () => {
+        if (currentSection === 1) {
+            setCurrentSection(0);
+            setCurrentQuestion(0);
+            return;
+        }
         if (currentQuestion > 0) {
             setCurrentQuestion(currentQuestion - 1);
         } else if (currentSection > 0) {
@@ -48,15 +59,14 @@ function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, formSet
     }, [sectionDetails, currentSection]);
 
     useEffect(() => {
-        if (testCompleted && snapShots.length > 0) {
+        if (testCompleted) {
             const data = {
                 ...formData,
-                ['SnapShotArray']: snapShots
             }
-            setFormData({ ...formData, ['SnapShotArray']: snapShots });
+            console.log(3);
             onSubmitData(data);
         }
-    }, [testCompleted, snapShots]);
+    }, [testCompleted]);
 
     if (sections.length === 0) {
         return <></>;
@@ -75,23 +85,47 @@ function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, formSet
     return (
         <>
             {
-                questionType === 'Text' ?
-                    <TextInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
-                    : questionType === 'Radio' ?
-                        <RadioQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
-                        : questionType === 'Checkbox' ?
-                            <CheckboxQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
-                            : questionType === 'Number' ?
-                                <NumberInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
-                                : questionType === 'Email' ?
-                                    <EmailInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
-                                    : questionType === 'TextArea' ?
-                                        <TextareaQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
-                                        : questionType === 'Date' ?
-                                            <DateInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
-                                            : questionType === 'Time' ?
-                                                <TimeInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
-                                                : ''
+                currentSection > 0 ?
+                    questionType === 'Text' ?
+                        <TextInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                        : questionType === 'Radio' ?
+                            <RadioQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                            : questionType === 'Checkbox' ?
+                                <CheckboxQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                                : questionType === 'Number' ?
+                                    <NumberInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                                    : questionType === 'Email' ?
+                                        <EmailInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                                        : questionType === 'TextArea' ?
+                                            <TextareaQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                                            : questionType === 'Date' ?
+                                                <DateInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                                                : questionType === 'Time' ?
+                                                    <TimeInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                                                    : ''
+                    :
+                    mcqData['Section1'].map(data => {
+                        const questionType = data.questionType;
+                        const questionNumber = data.questionNumber;
+                        const currentQuestionData = data;
+                        return questionType === 'Text' ?
+                            <TextInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                            : questionType === 'Radio' ?
+                                <RadioQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                                : questionType === 'Checkbox' ?
+                                    <CheckboxQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                                    : questionType === 'Number' ?
+                                        <NumberInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                                        : questionType === 'Email' ?
+                                            <EmailInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                                            : questionType === 'TextArea' ?
+                                                <TextareaQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                                                : questionType === 'Date' ?
+                                                    <DateInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                                                    : questionType === 'Time' ?
+                                                        <TimeInputQuestion key={questionNumber} question={currentQuestionData} onFormDataChange={handleFormDataChange} formData={formData} />
+                                                        : ''
+                    })
             }
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 {
@@ -99,7 +133,7 @@ function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, formSet
                         <button onClick={handlePrev}>Previous</button> : ''
                 }
                 {
-                    currentSection === sections.length - 1 ?
+                    (currentSection === sections.length - 1 && currentQuestion === currentSectionData.length - 1) ?
                         <button className='submit' onClick={submitAnswer}>Submit</button>
                         :
                         <button onClick={handleNext}
@@ -124,8 +158,8 @@ function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, formSet
                                     &&
                                     required === true
                                 )
-                                ||
-                                currentSection === sections.length - 1
+                                // ||
+                                // currentSection === sections.length - 1
                             }>
                             Next
                         </button>

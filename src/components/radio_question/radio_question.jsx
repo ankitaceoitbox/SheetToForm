@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './RadioQuestion.css';
 
 function RadioQuestion({ question, onFormDataChange, formData }) {
-    const [selectedOption, setSelectedOptions] = useState();
 
     function handleOptionChange(event) {
         const optionValue = event.target.value;
         onFormDataChange(`Question${question.questionNumber}`, optionValue);
-        setSelectedOptions(optionValue);
     }
 
     return (
@@ -16,7 +14,7 @@ function RadioQuestion({ question, onFormDataChange, formData }) {
             <div className='textdiscriptins'> {question.description}</div>
             {question.images && (
                 <div className="RadioQuestion-image">
-                    <img src={question.images} alt="question image" className='RadioQuestion-images' />
+                    <img src={question.images} alt={question.questionNumber} className='RadioQuestion-images' />
                 </div>
             )}
             <div className="RadioQuestion-options">
@@ -41,7 +39,7 @@ function RadioQuestion({ question, onFormDataChange, formData }) {
             </div>
             {question.images && (
                 <div className="RadioQuestion-image">
-                    <img src={question.images} alt="question image" />
+                    <img src={question.images} alt="" />
                 </div>
             )}
         </div>

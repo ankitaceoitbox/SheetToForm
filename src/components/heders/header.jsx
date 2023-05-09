@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './header.css';
 
 function Headerstop({ sectionName, sectionDescription }) {
@@ -15,7 +15,5 @@ function Headerstop({ sectionName, sectionDescription }) {
     </>
 
 }
-
-
 
 export default Headerstop;

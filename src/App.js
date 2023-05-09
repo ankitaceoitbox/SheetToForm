@@ -6,6 +6,7 @@ import RenderQuestion from './components/renderQuestion';
 import Webcam from './common/utils/webcam';
 import Timer from './common/utils/timer';
 import SaveFormData from './services/submitDataToSheet';
+import SubmitPage from './components/submit/submit';
 
 function App() {
   const { allMcqDataContextAPI } = ContextData();
@@ -15,12 +16,13 @@ function App() {
   const [sectionName, setSectionName] = useState('');
   const [sectionDescription, setSectionDescription] = useState('');
   const [testCompleted, setTestCompleted] = useState(false);
-  const [snapShotsArray, setSnapShotsArray] = useState([]);
   const [formResponse, setFormResponse] = useState({});
-
+  const [responseSave, setResponseSave] = useState(false);
+  const [timeDone, setTimeDone] = useState(false);
+  console.log('rendered');
   useEffect(() => {
     const data = allMcqDataContextAPI.data;
-    if (data != undefined) {
+    if (data !== undefined) {
       setMcqData(data[0]);
       setFormSettings(data[1]);
       setSectionDetails(data[2]);
@@ -28,19 +30,19 @@ function App() {
   }, [allMcqDataContextAPI]);
 
   useEffect(() => {
-    // if (testCompleted && formResponse['SnapShotArray']?.length > 0) {
-    if (testCompleted) {
+    if (timeDone && testCompleted) {
+      console.log(formResponse, 'time done');
       // Here api will get called...
-      console.log(formResponse);
       const responsePromise = SaveFormData(formResponse);
       responsePromise.then(response => {
         console.log(response.data);
+        setResponseSave(true);
       })
         .catch(error => {
           console.error(error);
         });
     }
-  }, [testCompleted, formResponse]);
+  }, [timeDone, testCompleted]);
 
   const sectionDetailsHandle = (sectionDetails) => {
     const name = sectionDetails?.name ?? '';
@@ -50,54 +52,55 @@ function App() {
   }
 
   const handleTimerComplete = useCallback(() => {
+    console.log(1);
     setTestCompleted(true);
-  }, []);
-
-  const handleSnapShots = useCallback((snapShotsArray) => {
-    setSnapShotsArray(snapShotsArray);
   }, []);
 
   const submitData = useCallback((formData) => {
+    console.log(4, formData);
     setFormResponse(formData);
     setTestCompleted(true);
-  }, [testCompleted]);
+    setTimeDone(true);
+  }, []);
 
   return (
-    <div className='row mainContainr'>
+    <>
       {
-        Object.keys(mcqData).length > 0 && snapShotsArray.length == 0 ?
-          <Webcam
-            time={formSettings['SnapShotTime']}
-            onHandleSnapShots={handleSnapShots}
-            testCompleted={testCompleted}
-          />
-          : ''
+        responseSave === false ?
+          <div className='row mainContainr'>
+            {
+              Object.keys(mcqData).length > 0 ?
+                <Webcam
+                  testCompleted={testCompleted}
+                />
+                :
+                ''
+            }
+            <div className="col-md-6 App">
+              {
+                Object.keys(mcqData).length > 0 && testCompleted === false ?
+                  <Timer
+                    time={formSettings['TimerSet']}
+                    onHandleTimerComplete={handleTimerComplete}
+                  />
+                  :
+                  ''
+              }
+              <Headerstop
+                sectionName={sectionName}
+                sectionDescription={sectionDescription}
+              />
+              <RenderQuestion
+                mcqData={mcqData}
+                sectionDetailsHandle={sectionDetailsHandle}
+                sectionDetails={sectionDetails}
+                onSubmitData={submitData}
+                testCompleted={testCompleted}
+              />
+            </div>
+          </div> : <SubmitPage />
       }
-      <div className="col-md-6 App">
-        {
-          Object.keys(mcqData).length > 0 && testCompleted == false ?
-            <Timer
-              time={formSettings['TimerSet']}
-              onHandleTimerComplete={handleTimerComplete}
-            />
-            :
-            ''
-        }
-        <Headerstop
-          sectionName={sectionName}
-          sectionDescription={sectionDescription}
-        />
-        <RenderQuestion
-          mcqData={mcqData}
-          sectionDetailsHandle={sectionDetailsHandle}
-          formSettings={formSettings}
-          sectionDetails={sectionDetails}
-          onSubmitData={submitData}
-          testCompleted={testCompleted}
-          snapShots={snapShotsArray}
-        />
-      </div>
-    </div>
+    </>
   );
 }
 
