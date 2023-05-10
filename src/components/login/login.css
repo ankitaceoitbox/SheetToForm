@@ -1,0 +1,28 @@
+.mainRow {
+  display: flex;
+  justify-content: center;
+}
+
+.questionHeader {
+  display: flex;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+.loginCol {
+  padding: 10px;
+  box-shadow: -3px 0px 20px 0px;
+  background: ghostwhite;
+  margin: 137px 0px 0px 0px;
+}
+.success {
+  justify-content: center;
+  margin: 10px;
+}
+.mainHead {
+  display: flex;
+  justify-content: center;
+}
+.btnRow {
+  justify-content: center;
+  display: flex;
+}

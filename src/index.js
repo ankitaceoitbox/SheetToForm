@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import MCQDataState from './context/mcq.state';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <MCQDataState>
     <App />

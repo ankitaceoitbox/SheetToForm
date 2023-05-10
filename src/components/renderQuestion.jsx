@@ -164,8 +164,6 @@ function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, onSubmi
                             Next
                         </button>
                 }
-
-
             </div>
         </>
     )
