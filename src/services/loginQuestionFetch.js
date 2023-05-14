@@ -7,7 +7,7 @@ export const GetLoginQuestion = () => {
     }
     const { appScript } = config;
     let url = URL + appScript.getEndPoint;
-    return httpService.get(`${url}?page=loginquestions`);
+    return httpService.get(`${url}?page=LoginQuestions`);
 }
 
 export default GetLoginQuestion;

@@ -7,7 +7,8 @@ export const getMcqData = () => {
     }
     const { appScript } = config;
     let url = URL + appScript.getEndPoint;
-    return httpService.get(url);
+    let id = sessionStorage.getItem('google_sheet_id') ? sessionStorage.getItem('google_sheet_id') : '';
+    return httpService.get(`${url}?page=McqQuestions&sheetid=${id}`);
 }
 
 const AllMcqData = {

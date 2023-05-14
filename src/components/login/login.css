@@ -11,8 +11,9 @@
 .loginCol {
   padding: 10px;
   box-shadow: -3px 0px 20px 0px;
-  background: ghostwhite;
-  margin: 137px 0px 0px 0px;
+  background-color: #bed01b;
+  border-radius: 15px;
+  margin: 80px 0px 0px 0px;
 }
 .success {
   justify-content: center;

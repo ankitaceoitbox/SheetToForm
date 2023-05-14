@@ -1,18 +1,16 @@
 import httpService from "./httpService";
-import config from "../config.json";
-const URL = config.appScript.domainUrl;
+const URL = 'http://localhost:3001/send-otp';
 
-export const SendOTP = (otp_generator, userDetails) => {
+export const SendOTP = (otp_generator, userDetails, otpSettings) => {
     if (URL == '') {
         return;
     }
-    const { appScript } = config;
-    let url = URL + appScript.getEndPoint;
     let params = {
         otp_generator,
-        userDetails
+        userDetails,
+        otpSettings
     }
-    return httpService.post(url, JSON.stringify(params));
+    return httpService.post(URL, params);
 }
 
 export default SendOTP;
