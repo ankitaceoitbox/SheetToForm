@@ -10,11 +10,11 @@ import TimeInputQuestion from './time/timequestion';
 import './renderQuestion.css';
 
 function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, onSubmitData, testCompleted }) {
-    console.log(mcqData, 'mcq')
     const sections = Object.keys(mcqData);
     const [currentSection, setCurrentSection] = useState(0);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [formData, setFormData] = useState({});
+    const [buttonDisable, setButtonDisable] = useState(false);
 
     const handleNext = () => {
         if (currentSection === 0) {
@@ -50,6 +50,7 @@ function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, onSubmi
 
     /** This will get called when clicked on submit button or when timer is over */
     const submitAnswer = () => {
+        setButtonDisable(true);
         onSubmitData(formData);
     };
 
@@ -134,7 +135,7 @@ function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, onSubmi
                 }
                 {
                     (currentSection === sections.length - 1 && currentQuestion === currentSectionData.length - 1) ?
-                        <button className='submit' onClick={submitAnswer}>Submit</button>
+                        <button className='submit' onClick={submitAnswer} disabled={buttonDisable}>Submit</button>
                         :
                         <button onClick={handleNext}
                             className="show-hide"
@@ -158,8 +159,6 @@ function RenderQuestion({ mcqData, sectionDetailsHandle, sectionDetails, onSubmi
                                     &&
                                     required === true
                                 )
-                                // ||
-                                // currentSection === sections.length - 1
                             }>
                             Next
                         </button>

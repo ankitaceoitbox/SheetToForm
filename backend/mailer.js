@@ -4,6 +4,7 @@ const cors = require('cors');
 
 const app = express();
 const port = 3001;
+const ipAddress = '64.227.133.158';
 
 app.use(express.json());
 app.use(cors());
@@ -43,9 +44,11 @@ app.post('/send-otp', (req, res) => {
             res.status(500).send('Error sending email');
         } else {
             const id = userDetails['Select Test'].match(/\/d\/(.+?)\//)[1];
+            const percent = userDetails['Select Test'].split("|")[0].split("%%%%")[1];
             const response = {
                 status: 'Email sent successfully',
-                id
+                id,
+                percent
             };
             res.status(200).send(response);
         }
