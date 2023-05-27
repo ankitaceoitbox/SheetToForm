@@ -19,7 +19,6 @@ function App() {
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path='/home' element={<div>Hello Working fine</div>}></Route>
                     <Route path='/' element={<LoginPage onHandleOTPCheck={handleOTPCheck} />}></Route>
                     <Route path='/test' element={<QuestionPage onHandleSubmitPage={goToSubmitPage} />}></Route>
                     <Route path='/submit_response' element={<ResponsePage />}></Route>

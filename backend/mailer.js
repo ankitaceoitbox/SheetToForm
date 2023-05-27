@@ -4,7 +4,6 @@ const cors = require('cors');
 
 const app = express();
 const port = 3001;
-const ipAddress = '64.227.133.158';
 
 app.use(express.json());
 app.use(cors());
@@ -22,6 +21,7 @@ const transporter = nodemailer.createTransport({
 app.get('/', (req, res) => {
     res.send('Running');
 });
+
 
 app.post('/send-otp', (req, res) => {
     const { otp_generator, userDetails, otpSettings } = req.body;
