@@ -1,6 +1,10 @@
 {
   "appScript": {
     "domainUrl": "https://script.google.com/macros/s/",
-    "getEndPoint": "AKfycbyCnddFseLua3LagntOAKCofuG-Irp6FSo3bYw_pPg2aJypSOahxIr4XJRZ1ggWUUo/exec"
+    "getEndPoint": "AKfycbwh6mLoiCNPHkEMwwJEXKFPH8z9054XFxe7gxoAAdps-FVJxg40QW03-h7s8bsbvSo8/exec"
+  },
+  "OTP": {
+    "domainUrl": "http://139.59.72.16:3001/",
+    "getEndPoint": "send-otp"
   }
 }

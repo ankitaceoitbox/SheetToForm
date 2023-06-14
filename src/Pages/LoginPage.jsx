@@ -4,7 +4,7 @@ import LoginPageComponent from '../components/login/login';
 import { ColorRing } from 'react-loader-spinner';
 
 function LoginPage({ onHandleOTPCheck }) {
-    const [loginQuestionContextAPI, otpSettings] = LoginContextData(); // get the login questions
+    const [loginQuestionContextAPI, otpSettings, declaration] = LoginContextData(); // get the login questions
     const handleOTPCheck = (sheetId, passingPercentage) => {
         onHandleOTPCheck(sheetId, passingPercentage);
     }
@@ -16,6 +16,7 @@ function LoginPage({ onHandleOTPCheck }) {
                         questions={loginQuestionContextAPI}
                         onHandleOTPCheck={handleOTPCheck}
                         otpSettings={otpSettings}
+                        declaration={declaration}
                     />
                     : <div style={styles.loaderContainer}>
                         <ColorRing color="#00BFFF" height={80} width={80} />

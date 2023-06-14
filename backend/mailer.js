@@ -4,9 +4,17 @@ const cors = require('cors');
 
 const app = express();
 const port = 3001;
+app.use(cors());
 
 app.use(express.json());
-app.use(cors());
+
+// Add a middleware to set the CORS headers
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -22,9 +30,9 @@ app.get('/', (req, res) => {
     res.send('Running');
 });
 
-
 app.post('/send-otp', (req, res) => {
     const { otp_generator, userDetails, otpSettings } = req.body;
+    console.log(otp_generator)
     userDetails['otp'] = otp_generator;
     let sendOTPTo = otpSettings[0];
     let subject = otpSettings[1];

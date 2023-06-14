@@ -33,3 +33,25 @@
   display: flex;
   justify-content: space-between;
 }
+
+.declaration {
+  width: 50%;
+  margin-top: 15px;
+  border: 1px solid #a19797;
+  background: ghostwhite;
+  background: #eecd24;
+}
+.resend {
+  margin-top: 10px;
+  text-align: center;
+}
+.resendbtn {
+  background: ghostwhite;
+  color: black;
+}
+.confirmBox {
+  text-align: center;
+}
+.termsAndCondition {
+  text-align: center;
+}
